@@ -1,9 +1,10 @@
 import React from 'react';
+import PropertySearcher from './components/PropertySearcher/propertySearcher';
 
 function App() {
   return (
     <div className="App">
-      Properties app
+      <PropertySearcher />
     </div>
   );
 }
