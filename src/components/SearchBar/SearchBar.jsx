@@ -1,11 +1,11 @@
-import React, { useState } from 'react';
-import PropTypes from 'prop-types';
+import React, { useState } from 'react'
+import PropTypes from 'prop-types'
 import {
   FormControl,
   IconButton, InputAdornment, InputLabel, OutlinedInput, Typography,
-} from '@mui/material';
-import SearchIcon from '@mui/icons-material/Search';
-import { Box } from '@mui/system';
+} from '@mui/material'
+import SearchIcon from '@mui/icons-material/Search'
+import { Box } from '@mui/system'
 
 function Adornment({ onClick }) {
   return (
@@ -18,23 +18,23 @@ function Adornment({ onClick }) {
         <SearchIcon />
       </IconButton>
     </InputAdornment>
-  );
+  )
 }
 
 Adornment.propTypes = {
   onClick: PropTypes.func.isRequired,
-};
+}
 
 function SearchBar() {
-  const [value, setValue] = useState('');
+  const [value, setValue] = useState('')
 
   const onCodeChanged = ({ target }) => {
-    setValue(target.value);
-  };
+    setValue(target.value)
+  }
 
   const onSearchClicked = () => {
-    console.log('search Clicked');
-  };
+    console.log('search Clicked')
+  }
 
   return (
     <>
@@ -56,7 +56,7 @@ function SearchBar() {
         </FormControl>
       </Box>
     </>
-  );
+  )
 }
 
-export default SearchBar;
+export default SearchBar
