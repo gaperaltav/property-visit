@@ -1,11 +1,12 @@
+import { Container } from '@mui/material';
 import React from 'react';
-import PropertySearcher from './components/PropertySearcher/propertySearcher';
+import SearchBar from './components/SearchBar/SearchBar';
 
 function App() {
   return (
-    <div className="App">
-      <PropertySearcher />
-    </div>
+    <Container className="App">
+      <SearchBar />
+    </Container>
   );
 }
 
