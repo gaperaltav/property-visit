@@ -1,8 +1,7 @@
 import React, { useState } from 'react'
 import PropTypes from 'prop-types'
 import {
-  FormControl,
-  IconButton, InputAdornment, InputLabel, OutlinedInput, Typography,
+  FormControl, IconButton, InputAdornment, InputLabel, OutlinedInput, Typography,
 } from '@mui/material'
 import SearchIcon from '@mui/icons-material/Search'
 import { Box } from '@mui/system'
@@ -33,6 +32,7 @@ function SearchBar() {
   }
 
   const onSearchClicked = () => {
+    // eslint-disable-next-line no-console
     console.log('search Clicked')
   }
 
