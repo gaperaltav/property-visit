@@ -1,19 +1,16 @@
 import React from 'react'
 import { FormGroup, FormControlLabel, Checkbox } from '@mui/material'
 
-function PropertyAttibutes() {
+function PropertyAttributes() {
   return (
-    <FormGroup row>
-      <FormControlLabel
-        label="Label"
-        control={<Checkbox defaultChecked />}
-      />
-      <FormControlLabel
-        label="Disabled"
-        control={<Checkbox />}
-      />
+    <FormGroup sx={{ display: 'flex', justifyContent: 'space-around' }} row>
+      <FormControlLabel label="Alquiler" control={<Checkbox />} />
+      <FormControlLabel label="Amueblado" control={<Checkbox />} />
+      <FormControlLabel label="Linea blanca" control={<Checkbox />} />
+      <FormControlLabel label="Venta" control={<Checkbox />} />
+      <FormControlLabel label="Administración" control={<Checkbox />} />
     </FormGroup>
   )
 }
 
-export default PropertyAttibutes
+export default PropertyAttributes
