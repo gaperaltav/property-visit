@@ -7,22 +7,16 @@ import SaveIcon from '@mui/icons-material/Save'
 
 function ActionButtonsFooter({ onSave, onCancel }) {
   return (
-    <Box xs={{
-      padding: '10px',
-    }}
+    <Box
+      xs={{
+        padding: '10px',
+        marginTop: '20px',
+      }}
     >
-      <Button
-        variant="contained"
-        endIcon={<SendIcon />}
-        onClick={onCancel}
-      >
+      <Button variant="contained" endIcon={<SendIcon />} onClick={onCancel}>
         Cancelar
       </Button>
-      <Button
-        variant="contained"
-        endIcon={<SaveIcon />}
-        onClick={onSave}
-      >
+      <Button variant="contained" endIcon={<SaveIcon />} onClick={onSave}>
         Guardar
       </Button>
     </Box>
