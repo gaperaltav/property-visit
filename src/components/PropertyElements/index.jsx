@@ -3,9 +3,10 @@ import { FormGroup, FormControlLabel, Checkbox } from '@mui/material'
 
 const styles = {
   margin: '25px',
+  padding: '10px',
   display: 'flex',
   justifyContent: 'space-around',
-  border: '1px solid',
+  border: '1px solid #ccc',
 }
 
 function PropertyElements() {
