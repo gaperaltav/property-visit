@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React from 'react'
 import PropTypes from 'prop-types'
 import {
   FormControl, IconButton, InputAdornment, InputLabel, OutlinedInput, Typography,
@@ -24,16 +24,15 @@ Adornment.propTypes = {
   onClick: PropTypes.func.isRequired,
 }
 
-function SearchBar() {
-  const [value, setValue] = useState('')
-
-  const onCodeChanged = ({ target }) => {
-    setValue(target.value)
-  }
-
+function SearchBar({ setValue, value }) {
   const onSearchClicked = () => {
     // eslint-disable-next-line no-console
     console.log('search Clicked')
+  }
+
+  const onChangeCode = (e) => {
+    const { value: code } = e.target
+    setValue(code)
   }
 
   return (
@@ -49,7 +48,7 @@ function SearchBar() {
             id="search-property"
             type="text"
             endAdornment={Adornment({ onClick: onSearchClicked })}
-            onChange={onCodeChanged}
+            onChange={onChangeCode}
             label="Password"
             value={value}
           />
@@ -57,6 +56,11 @@ function SearchBar() {
       </Box>
     </>
   )
+}
+
+SearchBar.propTypes = {
+  value: PropTypes.string.isRequired,
+  setValue: PropTypes.func.isRequired,
 }
 
 export default SearchBar

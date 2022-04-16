@@ -1,5 +1,5 @@
-import { collection, getDocs } from 'firebase/firestore/lite'
-import React from 'react'
+import { setDoc, doc } from 'firebase/firestore/lite'
+import React, { useState } from 'react'
 import {
   Box,
   Container,
@@ -11,31 +11,53 @@ import PropertyElements from '../PropertyElements'
 import PropertyAttributes from '../PropertyAttibutes'
 import SearchBar from '../SearchBar'
 
+const initialFormData = {
+  code: '',
+  owner: '',
+}
+
 function PropertyVisitForm() {
+  const [formData, setFormData] = useState(() => initialFormData)
+
   const handleOnSave = async () => {
     const db = getDatabase()
-    const properties = collection(db, 'properties')
-    const docsSnap = await getDocs(properties)
-    const data = docsSnap.docs.map((doc) => doc.data())
-    console.log({ data })
+    await setDoc(doc(db, 'properties', formData.code), formData)
+  }
+
+  const setUpdateFormData = (field, value) => {
+    setFormData((prevData) => ({
+      ...prevData,
+      [field]: value,
+    }))
   }
 
   return (
     <Container className="App">
-      <SearchBar />
+      <SearchBar
+        value={formData.code}
+        setValue={(value) => setUpdateFormData('code', value)}
+      />
+
       <PropertyAttributes />
 
       <Box>
         <FormGroup>
-          <TextField id="outlined-basic" label="Propietario" variant="standard" />
+          <TextField
+            id="outlined-basic"
+            label="Propietario"
+            variant="standard"
+            onChange={(e) => setUpdateFormData('owner', e.target.value)}
+          />
+
           <TextField id="outlined-basic" label="Telefono" variant="standard" />
-          <TextField type="email" id="outlined-basic" label="Correo" variant="standard" required />
-          <TextField id="outlined-basic" label="Dirección" variant="standard" required />
-          <TextField id="outlined-basic" label="No." variant="standard" required />
-          <TextField id="outlined-basic" label="Sector/Ciudad" variant="standard" required />
+
+          <TextField type="email" id="outlined-basic" label="Correo" variant="standard" />
+          <TextField id="outlined-basic" label="Dirección" variant="standard" />
+          <TextField id="outlined-basic" label="No." variant="standard" />
+          <TextField id="outlined-basic" label="Sector/Ciudad" variant="standard" />
           <PropertyElements />
           <TextField id="outlined-basic" label="Asesor captador" variant="standard" />
-          <TextField id="outlined-basic" label="Colega inmoviliario" variant="standard" required />
+          <TextField id="outlined-basic" label="Colega inmoviliario" variant="standard" />
         </FormGroup>
       </Box>
 
