@@ -14,6 +14,8 @@ import SearchBar from '../SearchBar'
 const initialFormData = {
   code: '',
   owner: '',
+  phoneNumber: '',
+  email: '',
 }
 
 function PropertyVisitForm() {
@@ -30,6 +32,8 @@ function PropertyVisitForm() {
       [field]: value,
     }))
   }
+
+  console.log({ formData })
 
   return (
     <Container className="App">
@@ -49,9 +53,21 @@ function PropertyVisitForm() {
             onChange={(e) => setUpdateFormData('owner', e.target.value)}
           />
 
-          <TextField id="outlined-basic" label="Telefono" variant="standard" />
+          <TextField
+            id="outlined-basic"
+            label="Telefono"
+            variant="standard"
+            onChange={(e) => setUpdateFormData('phoneNumer', e.target.value)}
+          />
 
-          <TextField type="email" id="outlined-basic" label="Correo" variant="standard" />
+          <TextField
+            type="email"
+            id="outlined-basic"
+            label="Correo"
+            variant="standard"
+            onChange={(e) => setUpdateFormData('email', e.target.value)}
+          />
+
           <TextField id="outlined-basic" label="Dirección" variant="standard" />
           <TextField id="outlined-basic" label="No." variant="standard" />
           <TextField id="outlined-basic" label="Sector/Ciudad" variant="standard" />
