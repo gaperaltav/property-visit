@@ -16,6 +16,18 @@ const initialFormData = {
   owner: '',
   phoneNumber: '',
   email: '',
+  address: '',
+  number: '',
+  city: '',
+  adviser: '',
+  colleague: '',
+  attributes: {
+    rent: false,
+    furnished: false,
+    whiteLine: false,
+    sale: false,
+    management: false,
+  },
 }
 
 function PropertyVisitForm() {
@@ -33,7 +45,19 @@ function PropertyVisitForm() {
     }))
   }
 
-  console.log({ formData })
+  const onChangeAttributes = (event) => {
+    const attributeName = event.target.name
+
+    if (!attributeName) return
+
+    setFormData((prevData) => ({
+      ...prevData,
+      attributes: {
+        ...prevData.attributes,
+        [attributeName]: !prevData.attributes[attributeName],
+      },
+    }))
+  }
 
   return (
     <Container className="App">
@@ -42,7 +66,10 @@ function PropertyVisitForm() {
         setValue={(value) => setUpdateFormData('code', value)}
       />
 
-      <PropertyAttributes />
+      <PropertyAttributes
+        attributes={formData.attributes}
+        onChange={onChangeAttributes}
+      />
 
       <Box>
         <FormGroup>
@@ -57,7 +84,7 @@ function PropertyVisitForm() {
             id="outlined-basic"
             label="Telefono"
             variant="standard"
-            onChange={(e) => setUpdateFormData('phoneNumer', e.target.value)}
+            onChange={(e) => setUpdateFormData('phoneNumber', e.target.value)}
           />
 
           <TextField
@@ -68,12 +95,42 @@ function PropertyVisitForm() {
             onChange={(e) => setUpdateFormData('email', e.target.value)}
           />
 
-          <TextField id="outlined-basic" label="Dirección" variant="standard" />
-          <TextField id="outlined-basic" label="No." variant="standard" />
-          <TextField id="outlined-basic" label="Sector/Ciudad" variant="standard" />
+          <TextField
+            id="outlined-basic"
+            label="Dirección"
+            variant="standard"
+            onChange={(e) => setUpdateFormData('address', e.target.value)}
+          />
+
+          <TextField
+            id="outlined-basic"
+            label="No."
+            variant="standard"
+            onChange={(e) => setUpdateFormData('number', e.target.value)}
+          />
+
+          <TextField
+            id="outlined-basic"
+            label="Sector/Ciudad"
+            variant="standard"
+            onChange={(e) => setUpdateFormData('city', e.target.value)}
+          />
+
           <PropertyElements />
-          <TextField id="outlined-basic" label="Asesor captador" variant="standard" />
-          <TextField id="outlined-basic" label="Colega inmoviliario" variant="standard" />
+
+          <TextField
+            id="outlined-basic"
+            label="Asesor captador"
+            variant="standard"
+            onChange={(e) => setUpdateFormData('adviser', e.target.value)}
+          />
+
+          <TextField
+            id="outlined-basic"
+            label="Colega inmoviliario"
+            variant="standard"
+            onChange={(e) => setUpdateFormData('colleague', e.target.value)}
+          />
         </FormGroup>
       </Box>
 
