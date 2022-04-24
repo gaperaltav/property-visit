@@ -96,6 +96,7 @@ function PropertyVisitForm() {
             id="outlined-basic"
             label="Propietario"
             variant="standard"
+            value={formData.owner}
             onChange={(e) => setUpdateFormData('owner', e.target.value)}
           />
 
@@ -103,6 +104,7 @@ function PropertyVisitForm() {
             id="outlined-basic"
             label="Telefono"
             variant="standard"
+            value={formData.phoneNumber}
             onChange={(e) => setUpdateFormData('phoneNumber', e.target.value)}
           />
 
@@ -111,6 +113,7 @@ function PropertyVisitForm() {
             id="outlined-basic"
             label="Correo"
             variant="standard"
+            value={formData.email}
             onChange={(e) => setUpdateFormData('email', e.target.value)}
           />
 
@@ -118,6 +121,7 @@ function PropertyVisitForm() {
             id="outlined-basic"
             label="Dirección"
             variant="standard"
+            value={formData.address}
             onChange={(e) => setUpdateFormData('address', e.target.value)}
           />
 
@@ -125,6 +129,7 @@ function PropertyVisitForm() {
             id="outlined-basic"
             label="No."
             variant="standard"
+            value={formData.number}
             onChange={(e) => setUpdateFormData('number', e.target.value)}
           />
 
@@ -132,6 +137,7 @@ function PropertyVisitForm() {
             id="outlined-basic"
             label="Sector/Ciudad"
             variant="standard"
+            value={formData.city}
             onChange={(e) => setUpdateFormData('city', e.target.value)}
           />
 
@@ -144,6 +150,7 @@ function PropertyVisitForm() {
             id="outlined-basic"
             label="Asesor captador"
             variant="standard"
+            value={formData.adviser}
             onChange={(e) => setUpdateFormData('adviser', e.target.value)}
           />
 
@@ -151,6 +158,7 @@ function PropertyVisitForm() {
             id="outlined-basic"
             label="Colega inmoviliario"
             variant="standard"
+            value={formData.colleague}
             onChange={(e) => setUpdateFormData('colleague', e.target.value)}
           />
         </FormGroup>
