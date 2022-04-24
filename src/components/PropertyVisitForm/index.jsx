@@ -38,11 +38,14 @@ const initialFormData = {
 
 function PropertyVisitForm() {
   const [formData, setFormData] = useState(() => initialFormData)
+  const [loading, setLoading] = useState(false)
 
   const handleOnSave = async () => {
+    setLoading(true)
     const db = getDatabase()
     await setDoc(doc(db, 'properties', formData.code), formData)
     setFormData({ ...initialFormData })
+    setLoading(false)
   }
 
   const setUpdateFormData = (field, value) => {
@@ -165,6 +168,7 @@ function PropertyVisitForm() {
       </Box>
 
       <ActionButtonsFooter
+        isLoading={loading}
         onSave={handleOnSave}
       />
     </Container>

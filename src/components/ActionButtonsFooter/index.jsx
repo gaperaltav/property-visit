@@ -4,8 +4,10 @@ import { Button } from '@mui/material'
 import { Box } from '@mui/system'
 import CancelIcon from '@mui/icons-material/Cancel'
 import SaveIcon from '@mui/icons-material/Save'
+import LoadingButton from '@mui/lab/LoadingButton'
 
-function ActionButtonsFooter({ onSave, onCancel }) {
+function ActionButtonsFooter({ onSave, onCancel, isLoading }) {
+  console.log({ isLoading })
   return (
     <Box
       style={{
@@ -25,14 +27,16 @@ function ActionButtonsFooter({ onSave, onCancel }) {
       >
         Cancelar
       </Button>
-      <Button
+      <LoadingButton
         variant="contained"
         endIcon={<SaveIcon />}
         onClick={onSave}
         size="large"
+        loading={isLoading}
+        loadingPosition="end"
       >
         Guardar
-      </Button>
+      </LoadingButton>
     </Box>
   )
 }
@@ -40,11 +44,13 @@ function ActionButtonsFooter({ onSave, onCancel }) {
 ActionButtonsFooter.propTypes = {
   onSave: PropTypes.func,
   onCancel: PropTypes.func,
+  isLoading: PropTypes.bool,
 }
 
 ActionButtonsFooter.defaultProps = {
   onSave: () => {},
   onCancel: () => {},
+  isLoading: false,
 }
 
 export default ActionButtonsFooter
