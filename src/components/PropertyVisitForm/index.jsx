@@ -28,6 +28,12 @@ const initialFormData = {
     sale: false,
     management: false,
   },
+  elements: {
+    sign: false,
+    keys: false,
+    occupy: false,
+    vigilant: false,
+  },
 }
 
 function PropertyVisitForm() {
@@ -36,6 +42,7 @@ function PropertyVisitForm() {
   const handleOnSave = async () => {
     const db = getDatabase()
     await setDoc(doc(db, 'properties', formData.code), formData)
+    setFormData({ ...initialFormData })
   }
 
   const setUpdateFormData = (field, value) => {
@@ -47,7 +54,6 @@ function PropertyVisitForm() {
 
   const onChangeAttributes = (event) => {
     const attributeName = event.target.name
-
     if (!attributeName) return
 
     setFormData((prevData) => ({
@@ -55,6 +61,19 @@ function PropertyVisitForm() {
       attributes: {
         ...prevData.attributes,
         [attributeName]: !prevData.attributes[attributeName],
+      },
+    }))
+  }
+
+  const onChangeElements = (event) => {
+    const element = event.target.name
+    if (!element) return
+
+    setFormData((prevData) => ({
+      ...prevData,
+      elements: {
+        ...prevData.elements,
+        [element]: !prevData.elements[element],
       },
     }))
   }
@@ -116,7 +135,10 @@ function PropertyVisitForm() {
             onChange={(e) => setUpdateFormData('city', e.target.value)}
           />
 
-          <PropertyElements />
+          <PropertyElements
+            elements={formData.elements}
+            onChange={onChangeElements}
+          />
 
           <TextField
             id="outlined-basic"
