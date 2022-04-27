@@ -7,7 +7,6 @@ import SaveIcon from '@mui/icons-material/Save'
 import LoadingButton from '@mui/lab/LoadingButton'
 
 function ActionButtonsFooter({ onSave, onCancel, isLoading }) {
-  console.log({ isLoading })
   return (
     <Box
       style={{

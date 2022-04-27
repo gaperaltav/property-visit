@@ -48,10 +48,14 @@ function PropertyVisitForm() {
     setLoading(false)
   }
 
-  const setUpdateFormData = (field, value) => {
+  const setUpdateFormData = (event) => {
+    const { target: { value, name } } = event
+    if (!name) {
+      return
+    }
     setFormData((prevData) => ({
       ...prevData,
-      [field]: value,
+      [name]: value,
     }))
   }
 
@@ -85,7 +89,8 @@ function PropertyVisitForm() {
     <Container className="App">
       <SearchBar
         value={formData.code}
-        setValue={(value) => setUpdateFormData('code', value)}
+        name="code"
+        onChangeValue={setUpdateFormData}
       />
 
       <PropertyAttributes
@@ -99,16 +104,18 @@ function PropertyVisitForm() {
             id="outlined-basic"
             label="Propietario"
             variant="standard"
+            name="owner"
             value={formData.owner}
-            onChange={(e) => setUpdateFormData('owner', e.target.value)}
+            onChange={setUpdateFormData}
           />
 
           <TextField
             id="outlined-basic"
             label="Telefono"
             variant="standard"
+            name="phoneNumber"
             value={formData.phoneNumber}
-            onChange={(e) => setUpdateFormData('phoneNumber', e.target.value)}
+            onChange={setUpdateFormData}
           />
 
           <TextField
@@ -117,7 +124,8 @@ function PropertyVisitForm() {
             label="Correo"
             variant="standard"
             value={formData.email}
-            onChange={(e) => setUpdateFormData('email', e.target.value)}
+            name="email"
+            onChange={setUpdateFormData}
           />
 
           <TextField
@@ -125,7 +133,8 @@ function PropertyVisitForm() {
             label="Dirección"
             variant="standard"
             value={formData.address}
-            onChange={(e) => setUpdateFormData('address', e.target.value)}
+            name="address"
+            onChange={setUpdateFormData}
           />
 
           <TextField
@@ -133,7 +142,8 @@ function PropertyVisitForm() {
             label="No."
             variant="standard"
             value={formData.number}
-            onChange={(e) => setUpdateFormData('number', e.target.value)}
+            name="number"
+            onChange={setUpdateFormData}
           />
 
           <TextField
@@ -141,7 +151,8 @@ function PropertyVisitForm() {
             label="Sector/Ciudad"
             variant="standard"
             value={formData.city}
-            onChange={(e) => setUpdateFormData('city', e.target.value)}
+            name="city"
+            onChange={setUpdateFormData}
           />
 
           <PropertyElements
@@ -154,7 +165,8 @@ function PropertyVisitForm() {
             label="Asesor captador"
             variant="standard"
             value={formData.adviser}
-            onChange={(e) => setUpdateFormData('adviser', e.target.value)}
+            name="adviser"
+            onChange={setUpdateFormData}
           />
 
           <TextField
@@ -162,7 +174,8 @@ function PropertyVisitForm() {
             label="Colega inmoviliario"
             variant="standard"
             value={formData.colleague}
-            onChange={(e) => setUpdateFormData('colleague', e.target.value)}
+            name="colleague"
+            onChange={setUpdateFormData}
           />
         </FormGroup>
       </Box>

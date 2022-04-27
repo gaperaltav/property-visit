@@ -24,15 +24,9 @@ Adornment.propTypes = {
   onClick: PropTypes.func.isRequired,
 }
 
-function SearchBar({ setValue, value }) {
+function SearchBar({ onChangeValue, value, name }) {
   const onSearchClicked = () => {
-    // eslint-disable-next-line no-console
-    console.log('search Clicked')
-  }
-
-  const onChangeCode = (e) => {
-    const { value: code } = e.target
-    setValue(code)
+    // TODO: Implement onSearch
   }
 
   return (
@@ -48,9 +42,10 @@ function SearchBar({ setValue, value }) {
             id="search-property"
             type="text"
             endAdornment={Adornment({ onClick: onSearchClicked })}
-            onChange={onChangeCode}
+            onChange={onChangeValue}
             label="Password"
             value={value}
+            name={name}
           />
         </FormControl>
       </Box>
@@ -60,7 +55,12 @@ function SearchBar({ setValue, value }) {
 
 SearchBar.propTypes = {
   value: PropTypes.string.isRequired,
-  setValue: PropTypes.func.isRequired,
+  onChangeValue: PropTypes.func.isRequired,
+  name: PropTypes.string,
+}
+
+SearchBar.defaultProps = {
+  name: '',
 }
 
 export default SearchBar
