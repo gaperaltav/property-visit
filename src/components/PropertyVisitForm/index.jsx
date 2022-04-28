@@ -1,15 +1,30 @@
 import { setDoc, doc } from 'firebase/firestore/lite'
 import React, { useState } from 'react'
 import {
-  Box,
-  Container,
-  FormGroup, TextField,
+  Box, Button, Container,
+  FormGroup, Modal, TextField,
 } from '@mui/material'
+import DriveFileRenameOutlineIcon from '@mui/icons-material/DriveFileRenameOutline'
+import CloseIcon from '@mui/icons-material/Close'
+import SignaturePad from 'react-signature-canvas'
 import getDatabase from '../../db'
 import ActionButtonsFooter from '../ActionButtonsFooter'
 import PropertyElements from '../PropertyElements'
 import PropertyAttributes from '../PropertyAttibutes'
 import SearchBar from '../SearchBar'
+import './styles.css'
+
+const boxModalStyle = {
+  position: 'absolute',
+  top: '50%',
+  left: '50%',
+  transform: 'translate(-50%, -50%)',
+  width: '80%',
+  height: ' 500px',
+  bgcolor: 'background.paper',
+  boxShadow: 24,
+  p: 4,
+}
 
 const initialFormData = {
   code: '',
@@ -39,6 +54,7 @@ const initialFormData = {
 function PropertyVisitForm() {
   const [formData, setFormData] = useState(() => initialFormData)
   const [loading, setLoading] = useState(false)
+  const [modal, setModal] = useState(false)
 
   const handleOnSave = async () => {
     setLoading(true)
@@ -83,6 +99,10 @@ function PropertyVisitForm() {
         [element]: !prevData.elements[element],
       },
     }))
+  }
+
+  const onClickSignButton = () => {
+    setModal((state) => !state)
   }
 
   return (
@@ -180,10 +200,41 @@ function PropertyVisitForm() {
         </FormGroup>
       </Box>
 
+      <Button
+        variant="contained"
+        size="large"
+        style={{
+          width: '70%',
+          margin: '15px auto',
+        }}
+        endIcon={<DriveFileRenameOutlineIcon />}
+        onClick={onClickSignButton}
+      >
+        Agregar Firma
+      </Button>
+
       <ActionButtonsFooter
         isLoading={loading}
         onSave={handleOnSave}
       />
+
+      <Modal
+        open={modal}
+      >
+        <Box sx={boxModalStyle}>
+          <SignaturePad
+            canvasProps={{ className: 'signatureCanvas' }}
+          />
+          <Button
+            variant="contained"
+            size="small"
+            endIcon={<CloseIcon />}
+            onClick={onClickSignButton}
+          >
+            Cerrar
+          </Button>
+        </Box>
+      </Modal>
     </Container>
   )
 }
