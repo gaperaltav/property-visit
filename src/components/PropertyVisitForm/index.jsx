@@ -1,10 +1,12 @@
 import { setDoc, doc } from 'firebase/firestore/lite'
-import React, { useState } from 'react'
+import React, { useState, useRef } from 'react'
 import {
   Box, Button, Container,
   FormGroup, Modal, TextField,
 } from '@mui/material'
 import DriveFileRenameOutlineIcon from '@mui/icons-material/DriveFileRenameOutline'
+import CleaningServicesIcon from '@mui/icons-material/CleaningServices'
+import SaveIcon from '@mui/icons-material/Save'
 import CloseIcon from '@mui/icons-material/Close'
 import SignaturePad from 'react-signature-canvas'
 import getDatabase from '../../db'
@@ -36,6 +38,7 @@ const initialFormData = {
   city: '',
   adviser: '',
   colleague: '',
+  signature: '',
   attributes: {
     rent: false,
     furnished: false,
@@ -55,6 +58,8 @@ function PropertyVisitForm() {
   const [formData, setFormData] = useState(() => initialFormData)
   const [loading, setLoading] = useState(false)
   const [modal, setModal] = useState(false)
+
+  const signatureRef = useRef({})
 
   const handleOnSave = async () => {
     setLoading(true)
@@ -103,6 +108,21 @@ function PropertyVisitForm() {
 
   const onClickSignButton = () => {
     setModal((state) => !state)
+  }
+
+  const onClearSignature = () => {
+    signatureRef.current.clear()
+  }
+
+  const onClickSaveSignature = () => {
+    const base64String = signatureRef.current.getTrimmedCanvas().toDataURL('image/png')
+    if (base64String) {
+      setFormData((prevData) => ({
+        ...prevData,
+        signature: base64String,
+      }))
+      setModal(false)
+    }
   }
 
   return (
@@ -223,6 +243,7 @@ function PropertyVisitForm() {
       >
         <Box sx={boxModalStyle}>
           <SignaturePad
+            ref={signatureRef}
             canvasProps={{ className: 'signatureCanvas' }}
           />
           <Button
@@ -232,6 +253,22 @@ function PropertyVisitForm() {
             onClick={onClickSignButton}
           >
             Cerrar
+          </Button>
+          <Button
+            variant="contained"
+            size="small"
+            endIcon={<CleaningServicesIcon />}
+            onClick={onClearSignature}
+          >
+            Limpiar
+          </Button>
+          <Button
+            variant="contained"
+            size="small"
+            endIcon={<SaveIcon />}
+            onClick={onClickSaveSignature}
+          >
+            Guardar
           </Button>
         </Box>
       </Modal>
