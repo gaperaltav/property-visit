@@ -1,18 +1,20 @@
 import { setDoc, doc } from 'firebase/firestore/lite'
-import React, { useState } from 'react'
+import React, { useState, useRef } from 'react'
 import {
   Box, Button, Container,
-  FormGroup, Modal, TextField,
+  Modal,
 } from '@mui/material'
 import DriveFileRenameOutlineIcon from '@mui/icons-material/DriveFileRenameOutline'
+import CleaningServicesIcon from '@mui/icons-material/CleaningServices'
+import SaveIcon from '@mui/icons-material/Save'
 import CloseIcon from '@mui/icons-material/Close'
 import SignaturePad from 'react-signature-canvas'
 import getDatabase from '../../db'
 import ActionButtonsFooter from '../ActionButtonsFooter'
-import PropertyElements from '../PropertyElements'
 import PropertyAttributes from '../PropertyAttibutes'
 import SearchBar from '../SearchBar'
 import './styles.css'
+import PropertyVisitFields from './PropertyVisitFields'
 
 const boxModalStyle = {
   position: 'absolute',
@@ -36,6 +38,7 @@ const initialFormData = {
   city: '',
   adviser: '',
   colleague: '',
+  signature: '',
   attributes: {
     rent: false,
     furnished: false,
@@ -55,6 +58,8 @@ function PropertyVisitForm() {
   const [formData, setFormData] = useState(() => initialFormData)
   const [loading, setLoading] = useState(false)
   const [modal, setModal] = useState(false)
+
+  const signatureRef = useRef({})
 
   const handleOnSave = async () => {
     setLoading(true)
@@ -105,6 +110,21 @@ function PropertyVisitForm() {
     setModal((state) => !state)
   }
 
+  const onClearSignature = () => {
+    signatureRef.current.clear()
+  }
+
+  const onClickSaveSignature = () => {
+    const base64String = signatureRef.current.getTrimmedCanvas().toDataURL('image/png')
+    if (base64String) {
+      setFormData((prevData) => ({
+        ...prevData,
+        signature: base64String,
+      }))
+      setModal(false)
+    }
+  }
+
   return (
     <Container className="App">
       <SearchBar
@@ -118,87 +138,12 @@ function PropertyVisitForm() {
         onChange={onChangeAttributes}
       />
 
-      <Box>
-        <FormGroup>
-          <TextField
-            id="outlined-basic"
-            label="Propietario"
-            variant="standard"
-            name="owner"
-            value={formData.owner}
-            onChange={setUpdateFormData}
-          />
-
-          <TextField
-            id="outlined-basic"
-            label="Telefono"
-            variant="standard"
-            name="phoneNumber"
-            value={formData.phoneNumber}
-            onChange={setUpdateFormData}
-          />
-
-          <TextField
-            type="email"
-            id="outlined-basic"
-            label="Correo"
-            variant="standard"
-            value={formData.email}
-            name="email"
-            onChange={setUpdateFormData}
-          />
-
-          <TextField
-            id="outlined-basic"
-            label="Dirección"
-            variant="standard"
-            value={formData.address}
-            name="address"
-            onChange={setUpdateFormData}
-          />
-
-          <TextField
-            id="outlined-basic"
-            label="No."
-            variant="standard"
-            value={formData.number}
-            name="number"
-            onChange={setUpdateFormData}
-          />
-
-          <TextField
-            id="outlined-basic"
-            label="Sector/Ciudad"
-            variant="standard"
-            value={formData.city}
-            name="city"
-            onChange={setUpdateFormData}
-          />
-
-          <PropertyElements
-            elements={formData.elements}
-            onChange={onChangeElements}
-          />
-
-          <TextField
-            id="outlined-basic"
-            label="Asesor captador"
-            variant="standard"
-            value={formData.adviser}
-            name="adviser"
-            onChange={setUpdateFormData}
-          />
-
-          <TextField
-            id="outlined-basic"
-            label="Colega inmoviliario"
-            variant="standard"
-            value={formData.colleague}
-            name="colleague"
-            onChange={setUpdateFormData}
-          />
-        </FormGroup>
-      </Box>
+      <PropertyVisitFields
+        data={formData}
+        elements={formData.elements}
+        setUpdateFormData={setUpdateFormData}
+        setChangeElements={onChangeElements}
+      />
 
       <Button
         variant="contained"
@@ -223,6 +168,7 @@ function PropertyVisitForm() {
       >
         <Box sx={boxModalStyle}>
           <SignaturePad
+            ref={signatureRef}
             canvasProps={{ className: 'signatureCanvas' }}
           />
           <Button
@@ -232,6 +178,22 @@ function PropertyVisitForm() {
             onClick={onClickSignButton}
           >
             Cerrar
+          </Button>
+          <Button
+            variant="contained"
+            size="small"
+            endIcon={<CleaningServicesIcon />}
+            onClick={onClearSignature}
+          >
+            Limpiar
+          </Button>
+          <Button
+            variant="contained"
+            size="small"
+            endIcon={<SaveIcon />}
+            onClick={onClickSaveSignature}
+          >
+            Guardar
           </Button>
         </Box>
       </Modal>
