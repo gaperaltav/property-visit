@@ -52,6 +52,8 @@ const initialFormData = {
     occupy: false,
     vigilant: false,
   },
+  createdDate: null,
+  updatedDate: null,
 }
 
 function PropertyVisitForm() {
@@ -64,6 +66,8 @@ function PropertyVisitForm() {
   const handleOnSave = async () => {
     setLoading(true)
     const db = getDatabase()
+    formData.createdDate = new Date()
+
     await setDoc(doc(db, 'properties', formData.code), formData)
     setFormData({ ...initialFormData })
     setLoading(false)
@@ -144,28 +148,21 @@ function PropertyVisitForm() {
         setUpdateFormData={setUpdateFormData}
         setChangeElements={onChangeElements}
       />
+      <Box sx={{ display: 'flex', justifyContent: 'center' }}>
+        <Button
+          variant="contained"
+          size="large"
+          style={{ width: '70%', margin: '15px' }}
+          endIcon={<DriveFileRenameOutlineIcon />}
+          onClick={onClickSignButton}
+        >
+          Agregar Firma
+        </Button>
+      </Box>
 
-      <Button
-        variant="contained"
-        size="large"
-        style={{
-          width: '70%',
-          margin: '15px auto',
-        }}
-        endIcon={<DriveFileRenameOutlineIcon />}
-        onClick={onClickSignButton}
-      >
-        Agregar Firma
-      </Button>
+      <ActionButtonsFooter isLoading={loading} onSave={handleOnSave} />
 
-      <ActionButtonsFooter
-        isLoading={loading}
-        onSave={handleOnSave}
-      />
-
-      <Modal
-        open={modal}
-      >
+      <Modal open={modal}>
         <Box sx={boxModalStyle}>
           <SignaturePad
             ref={signatureRef}
