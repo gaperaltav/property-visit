@@ -1,4 +1,3 @@
-import { setDoc, doc } from 'firebase/firestore/lite'
 import React, { useState, useRef } from 'react'
 import {
   Box, Button, Container,
@@ -9,12 +8,12 @@ import CleaningServicesIcon from '@mui/icons-material/CleaningServices'
 import SaveIcon from '@mui/icons-material/Save'
 import CloseIcon from '@mui/icons-material/Close'
 import SignaturePad from 'react-signature-canvas'
-import getDatabase from '../../db'
 import ActionButtonsFooter from '../ActionButtonsFooter'
 import PropertyAttributes from '../PropertyAttibutes'
 import SearchBar from '../SearchBar'
 import './styles.css'
 import PropertyVisitFields from './PropertyVisitFields'
+import { saveDocument } from '../../helpers/firestore-helper'
 
 const boxModalStyle = {
   position: 'absolute',
@@ -52,6 +51,8 @@ const initialFormData = {
     occupy: false,
     vigilant: false,
   },
+  createdDate: null,
+  updatedDate: null,
 }
 
 function PropertyVisitForm() {
@@ -63,8 +64,8 @@ function PropertyVisitForm() {
 
   const handleOnSave = async () => {
     setLoading(true)
-    const db = getDatabase()
-    await setDoc(doc(db, 'properties', formData.code), formData)
+    formData.createdDate = new Date()
+    await saveDocument('properties', formData, 'code')
     setFormData({ ...initialFormData })
     setLoading(false)
   }
@@ -112,6 +113,10 @@ function PropertyVisitForm() {
 
   const onClearSignature = () => {
     signatureRef.current.clear()
+    setFormData((prevData) => ({
+      ...prevData,
+      signature: '',
+    }))
   }
 
   const onClickSaveSignature = () => {
@@ -144,28 +149,47 @@ function PropertyVisitForm() {
         setUpdateFormData={setUpdateFormData}
         setChangeElements={onChangeElements}
       />
+      <br />
+      <Box>
+        {formData.signature !== '' ? (
+          <img
+            src={formData.signature}
+            alt="visitor's firm"
+            style={{
+              display: 'block', margin: '0 auto', width: '250px', border: '1px solid #ccc',
+            }}
+          />
+        ) : null}
+        <Box sx={{ display: 'flex', justifyContent: 'center' }}>
+          {formData.signature !== '' ? (
+            <Button
+              variant="contained"
+              size="large"
+              style={{ margin: '15px 10px' }}
+              endIcon={<CleaningServicesIcon />}
+              onClick={() => setFormData((prevData) => ({
+                ...prevData,
+                signature: '',
+              }))}
+            >
+              Limpiar
+            </Button>
+          ) : null }
+          <Button
+            variant="contained"
+            size="large"
+            style={{ margin: '15px 0' }}
+            endIcon={<DriveFileRenameOutlineIcon />}
+            onClick={onClickSignButton}
+          >
+            {formData.signature === '' ? 'Agregar Firma' : 'Reemplazar firma'}
+          </Button>
+        </Box>
+      </Box>
 
-      <Button
-        variant="contained"
-        size="large"
-        style={{
-          width: '70%',
-          margin: '15px auto',
-        }}
-        endIcon={<DriveFileRenameOutlineIcon />}
-        onClick={onClickSignButton}
-      >
-        Agregar Firma
-      </Button>
+      <ActionButtonsFooter isLoading={loading} onSave={handleOnSave} />
 
-      <ActionButtonsFooter
-        isLoading={loading}
-        onSave={handleOnSave}
-      />
-
-      <Modal
-        open={modal}
-      >
+      <Modal open={modal}>
         <Box sx={boxModalStyle}>
           <SignaturePad
             ref={signatureRef}
