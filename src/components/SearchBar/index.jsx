@@ -24,9 +24,22 @@ Adornment.propTypes = {
   onClick: PropTypes.func.isRequired,
 }
 
-function SearchBar({ onChangeValue, value, name }) {
+function SearchBar({ setData, value, name }) {
   const onSearchClicked = () => {
     // TODO: Implement onSearch
+  }
+
+  const onChangeInput = (event) => {
+    const {
+      target: { value: inputValue },
+    } = event
+
+    if (inputValue.match(/^[A-Za-z0-9]+$/) || inputValue === '') {
+      setData((prevData) => ({
+        ...prevData,
+        [name]: inputValue,
+      }))
+    }
   }
 
   return (
@@ -42,7 +55,7 @@ function SearchBar({ onChangeValue, value, name }) {
             id="search-property"
             type="text"
             endAdornment={Adornment({ onClick: onSearchClicked })}
-            onChange={onChangeValue}
+            onChange={onChangeInput}
             label="Password"
             value={value}
             name={name}
@@ -55,7 +68,7 @@ function SearchBar({ onChangeValue, value, name }) {
 
 SearchBar.propTypes = {
   value: PropTypes.string.isRequired,
-  onChangeValue: PropTypes.func.isRequired,
+  setData: PropTypes.func.isRequired,
   name: PropTypes.string,
 }
 

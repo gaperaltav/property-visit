@@ -135,7 +135,7 @@ function PropertyVisitForm() {
       <SearchBar
         value={formData.code}
         name="code"
-        onChangeValue={setUpdateFormData}
+        setData={setFormData}
       />
 
       <PropertyAttributes
